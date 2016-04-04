@@ -12,7 +12,7 @@ public class Ball {
 
     private Pong pong;
 
-    public int amountOfHits;//tochkite ni
+    public int amountOfHits;
 
     public Ball(Pong pong){
         this.pong = pong;
@@ -30,7 +30,6 @@ public class Ball {
         this.y += motionY * speed;
 
 
-            //da ne mi izliza ot gore i dolu topkata
         if (this.y + height - motionY > pong.height || this.y + motionY < 0) {
 
             if (this.motionY < 0){
@@ -56,21 +55,21 @@ public class Ball {
 
         if (checkCollision(paddle1) == 1){
 
-            this.motionX = 1 + (amountOfHits / 5);//kazva mu na kude da se dviji topkata + da uvelichava burzinata sled vseki 5ti udar
-            this.motionY = -2 + random.nextInt(4);//kazva mu na kude da se dviji topkata
+            this.motionX = 1 + (amountOfHits / 5);
+            this.motionY = -2 + random.nextInt(4);
 
            if(motionY == 0){
                motionY = 1;
            }
-            amountOfHits ++;//slagame go tuk za da broi samo paddles kato udari, bez walls
+            amountOfHits ++;
 
        } else if (checkCollision(paddle2) == 1){
             this.motionX = -1 - (amountOfHits / 5);
-            this.motionY = -2 + random.nextInt(4);//kazva mu na kude da se dviji topkata
+            this.motionY = -2 + random.nextInt(4);
            if(motionY == 0){
                motionY = 1;
            }
-            amountOfHits++; //slagame go tuk za da broi samo paddles kato udari, bez walls
+            amountOfHits++; 
         }
 
         if (checkCollision(paddle1) == 2){
@@ -82,13 +81,13 @@ public class Ball {
         }
     }
 
-    public void spawn(){ //tozi metod kara topcheto da se spawnva posredata ako go izpusnesh
+    public void spawn(){ 
 
-        this.amountOfHits = 0; //nulira hitovete, za da zabavi topkata
+        this.amountOfHits = 0; 
         this.x = pong.width / 2 - this.width / 2;
         this.y = pong.height / 2 - this.height / 2;
 
-        this.motionY = -2 + random.nextInt(4);//kazva mu na kude da se dviji topkata
+        this.motionY = -2 + random.nextInt(4);
 
         if(motionY == 0){
             motionY = 1;
@@ -100,19 +99,19 @@ public class Ball {
         }
     }
 
-    public int checkCollision(Paddle paddle) { //collision = povtoreniq
+    public int checkCollision(Paddle paddle) { 
 
         if (this.x < paddle.x + paddle.width && this.x + width > paddle.x && this.y < paddle.y + paddle.height && this.y + height > paddle.y) {
-            return 1; //bounce - tuy go pazi da ne izleze ot lopatkite
+            return 1; 
 
         } else if ((paddle.x > x && paddle.paddleNumber == 1) || (paddle.x < x - width && paddle.paddleNumber == 2)) {
-            return 2;//score
+            return 2;
         }
-            return 0; //nothing
+            return 0; 
     }
 
     public void render(Graphics g){
         g.setColor(Color.WHITE);
-        g.fillOval(x, y, width, height); //samoto risuvane na topkata
+        g.fillOval(x, y, width, height); 
     }
 }
