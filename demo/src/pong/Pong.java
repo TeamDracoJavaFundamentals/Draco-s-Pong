@@ -23,6 +23,7 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
     public Paddle player1; // obekti ot klasa Paddle
     public Paddle player2;
     public Ball ball; // obekt ot klasa Ball
+    public Bonus bonus;
     public boolean bot = false;
     public boolean selectingDifficulty;
     public boolean w;
@@ -57,6 +58,7 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         this.player1 = new Paddle(this, 1); // s1zdava obektite, kato vzema 4rez 'this' definiciqta ot po gore
         this.player2 = new Paddle(this, 2);
         this.ball = new Ball(this);
+        this.bonus = new Bonus(this);
     }
 
     public void update() {
@@ -118,7 +120,7 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
                 }
             }
         }
-
+        this.bonus.update(this.ball);
         this.ball.update(this.player1, this.player2); // updatvane na topkata (funkciqta idva ot nego klas t1i kato pi6e this(demek ot tozi klas,
     }                                                 // posle ball(definiciqta ot na4aloto na tozi klas Ball ball) i funkciqta update on klasa Ball
                                                       // koqto ima atributi paddle1 i paddle2
@@ -164,6 +166,9 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
             this.player1.render(g); // izpolzva render funkciite ot drugite klasove za da updatva kartinata
             this.player2.render(g);
             this.ball.render(g);
+            if (bonus.visible) {
+                this.bonus.render(g);
+            }
         }
 
         if(this.gameStatus == 3) { // menu na pobeda

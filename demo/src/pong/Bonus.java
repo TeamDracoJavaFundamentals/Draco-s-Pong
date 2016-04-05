@@ -6,9 +6,13 @@ import java.util.Random;
 public class Bonus {
     public int x;
     public int y;
-    public int width = 25;
-    public int height = 25;
+    public int width = 50;
+    public int height = 50;
     public Random random;
+    public boolean isHit = false;
+    public boolean balls = false;
+    public boolean visible = false;
+
     private Pong pong;
 
     public Bonus(Pong pong) {
@@ -18,7 +22,19 @@ public class Bonus {
     }
 
     public void update(Ball ball) {
+        if (ball.amountOfHits % 20 == 15) {
+            visible = true;
+        }
 
+        if (this.checkCollision(ball) == 1) {
+            isHit = true;
+            balls = true;
+            visible = false;
+        }
+    }
+
+    public boolean getVisible(){
+        return visible;
     }
 
     public void spawn() {
@@ -29,13 +45,14 @@ public class Bonus {
         this.y = 100;//this.random.nextInt(4);
     }
 
-//    public int checkCollision(Ball ball) {
-//        return this.x < ball.x + ball.width &&
-//                this.x + this.width > ball.x &&
-//                this.y < ball.y + ball.height &&
-//                this.y + this.height > ball.y?1:((ball.x <= this.x || ball.paddleNumber != 1) &&
-//                (ball.x >= this.x - this.width || ball.paddleNumber != 2)?0:2);
-//    }
+    public int checkCollision(Ball ball) {
+        if (!(this.x > (ball.x + ball.width) || (this.x + this.width) < ball.x) &&
+                !(this.y > (ball.y + ball.height) || (this.y + this.height) < ball.y)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
 
     public void render(Graphics g) {
         g.setColor(Color.CYAN);
