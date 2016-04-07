@@ -9,40 +9,36 @@ public class Bonus {
     public int width = 50;
     public int height = 50;
     public Random random;
-    public boolean isHit = false;
-    public boolean balls = false;
     public boolean visible = false;
-
     private Pong pong;
+    private BonusBall bonusBall;
 
     public Bonus(Pong pong) {
         this.pong = pong;
         this.random = new Random();
-        this.spawn();
     }
 
-    public void update(Ball ball) {
+    public void update(Ball ball, BonusBall bonusBall) {
         if (ball.amountOfHits % 20 == 15) {
             visible = true;
+            this.spawn();
         }
 
         if (this.checkCollision(ball) == 1) {
-            isHit = true;
-            balls = true;
+            if (visible) {
+                bonusBall.visibleBall = true;
+                bonusBall.spawn();
+            }
             visible = false;
         }
     }
 
-    public boolean getVisible(){
-        return visible;
-    }
-
     public void spawn() {
-        this.x = 100;//this.random.nextInt(4);
+        this.x = 400;//this.random.nextInt(4);
 //        if (this.x == 0 || this.x < 150) {
 //            this.x = 150;
 //        }
-        this.y = 100;//this.random.nextInt(4);
+        this.y = 400;//this.random.nextInt(4);
     }
 
     public int checkCollision(Ball ball) {
