@@ -69,11 +69,13 @@ public class BonusBall {
 
         if(this.checkCollision(paddle1) == 2) {                 // v slu4ai 4e tazi funkciq checkCollision v1rne 2
             ++paddle2.score;
+            this.spawn();
             this.visibleBall = false;
             ball.spawn();
             pong.gameStatus = 4;                                       // respawnva top4eto po sredata
         } else if(this.checkCollision(paddle2) == 2) {
             ++paddle1.score;
+            this.spawn();
             this.visibleBall = false;
             ball.spawn();
             pong.gameStatus = 4;

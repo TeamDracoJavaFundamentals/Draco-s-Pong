@@ -14,7 +14,6 @@ public class Ball {
     public int motionY;
     public Random random;
     private Pong pong;
-    private BonusBall bonusBall;
     public int amount;
     public int amountOfHits;
 
@@ -24,7 +23,7 @@ public class Ball {
         this.spawn(); // funkciq na klasa za s1zdavane na top4eto v sredata na ekrana
     }                  // i izpra6tane v s1otvetna posoka
 
-    public void update(Paddle paddle1, Paddle paddle2, BonusBall bonusBall) {
+    public void update(Paddle paddle1, Paddle paddle2, BonusBall bonusBall, BonusBall bonusBall2) {
         byte speed = 5;
         this.x += this.motionX * speed;
         this.y += this.motionY * speed;
@@ -70,11 +69,13 @@ public class Ball {
         if(this.checkCollision(paddle1) == 2) {                 // v slu4ai 4e tazi funkciq checkCollision v1rne 2
             ++paddle2.score;
             bonusBall.visibleBall = false;
+            bonusBall2.visibleBall = false;
             this.spawn();
             pong.gameStatus = 4;                                                        // respawnva top4eto po sredata
         } else if(this.checkCollision(paddle2) == 2) {
             ++paddle1.score;
             bonusBall.visibleBall = false;
+            bonusBall2.visibleBall = false;
             this.spawn();
             pong.gameStatus = 4;
         }
