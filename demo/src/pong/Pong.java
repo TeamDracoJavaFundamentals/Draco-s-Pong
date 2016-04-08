@@ -1,19 +1,20 @@
 package pong;
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.Timer;
 import pong.Ball;
 import pong.Paddle;
 import pong.Renderer;
+import pong.BackgroundPanel;
+
 
 public class Pong implements ActionListener, KeyListener { // tezi 2te sa interface-i vgradeni v java
     public static Pong pong; // obekt ot klasa
@@ -41,7 +42,7 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
     public Pong() { // constructor na klasa
         Timer timer = new Timer(20, this);
         this.random = new Random();
-        this.jframe = new JFrame("Pong");
+        this.jframe = new JFrame("Draco's Pong");
         this.renderer = new Renderer();
         this.jframe.setSize(this.width + 15, this.height + 35);
         this.jframe.setVisible(true); // ako tova go nqma, nqma da se vizualizira ni6to
@@ -126,14 +127,23 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, this.width, this.height);
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+
+        try {
+            Image img = ImageIO.read(new File("src/pong/playGround.jpg")); //izchertavane na background image
+            g.drawImage(img, 0, 0, null);
+        } catch (IOException ioe){
+            System.out.println("image: background not found");
+        }
+
         if(this.gameStatus == 0) { // glavno menu
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", 1, 50));
-            g.drawString("PONG", this.width / 2 - 75, 50);
+            g.drawString("DRACO'S PONG", this.width / 2 - 190, 70);
             if(!this.selectingDifficulty) {
                 g.setFont(new Font("Arial", 1, 30));
                 g.drawString("Press Space to Play", this.width / 2 - 150, this.height / 2 - 25);
-                g.drawString("Press Shift to Play with Bot", this.width / 2 - 200, this.height / 2 + 25);
+                g.drawString("Press Shift to Play with Draco", this.width / 2 - 220, this.height / 2 + 25);
                 g.drawString("<< Score Limit: " + this.scoreLimit + " >>", this.width / 2 - 150, this.height / 2 + 75);
             }
         }
@@ -141,7 +151,7 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         if(this.selectingDifficulty) { // menu pri natiskane na shift
             String string = this.botDifficulty == 0?"Easy":(this.botDifficulty == 1?"Medium":"Hard");
             g.setFont(new Font("Arial", 1, 30));
-            g.drawString("<< Bot Difficulty: " + string + " >>", this.width / 2 - 180, this.height / 2 - 25);
+            g.drawString("<< Draco's Difficulty: " + string + " >>", this.width / 2 - 210, this.height / 2 - 25);
             g.drawString("Press Space to Play", this.width / 2 - 150, this.height / 2 + 25);
             g.drawString("Press ESC for Menu", this.width / 2 - 150, this.height / 2 + 75);
         }
@@ -169,9 +179,9 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         if(this.gameStatus == 3) { // menu na pobeda
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", 1, 50));
-            g.drawString("PONG", this.width / 2 - 75, 50);
+            g.drawString("DRACO'S PONG", this.width / 2 - 190, 70);
             if(this.bot && this.playerWon == 2) {
-                g.drawString("The Bot Wins!", this.width / 2 - 170, 200);
+                g.drawString("Draco Wins!", this.width / 2 - 150, 200);
             } else {
                 g.drawString("Player " + this.playerWon + " Wins!", this.width / 2 - 165, 200);
             }

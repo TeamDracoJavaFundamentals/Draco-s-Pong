@@ -1,7 +1,11 @@
 package pong;
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
+import java.io.File;
+import java.io.IOException;
 import pong.Pong;
+import pong.BackgroundPanel;
+import javax.imageio.ImageIO;
+
 
 public class Paddle {
     public int paddleNumber;
@@ -27,6 +31,15 @@ public class Paddle {
     public void render(Graphics g) { // iz4ertava gi
         g.setColor(Color.WHITE);
         g.fillRect(this.x, this.y, this.width, this.height);
+                                                            //izpolzvane na kartinka za paddle
+        try {
+            Image imgPaddle = ImageIO.read(new File("src/pong/paddle.jpg"));
+            g.drawImage(imgPaddle, this.x, this.y, null);
+        } catch (IOException ioe){
+            System.out.println("image: paddle not found");
+        }
+
+
     }
 
     public void move(boolean up) {              // ako e istina i ako y coord na paddle-a - 25 dostiga nad

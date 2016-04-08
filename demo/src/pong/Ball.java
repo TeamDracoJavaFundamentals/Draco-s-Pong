@@ -1,9 +1,13 @@
 package pong;
-import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.*;
 import java.util.Random;
+import java.io.File;
+import java.io.IOException;
 import pong.Paddle;
 import pong.Pong;
+import pong.BackgroundPanel;
+import javax.imageio.ImageIO;
+
 
 public class Ball {
     public int x;
@@ -98,5 +102,12 @@ public class Ball {
     public void render(Graphics g) { // iz4ertava top4eto
         g.setColor(Color.WHITE);
         g.fillOval(this.x, this.y, this.width, this.height);
+                                                                        //slagane na akrtinka za topcheto
+        try {
+            Image imgPaddle = ImageIO.read(new File("src/pong/ball.png"));
+            g.drawImage(imgPaddle, this.x, this.y, null);
+        } catch (IOException ioe){
+            System.out.println("image: ball not found");
+        }
     }
 }
