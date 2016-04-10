@@ -25,7 +25,6 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
     public Ball ball; // obekt ot klasa Ball
     public Bonus bonus;
     public BonusBall bonusBall;
-    public BonusBall bonusBall2;
     public boolean bot = false;
     public boolean selectingDifficulty;
     public boolean w;
@@ -62,7 +61,6 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         this.ball = new Ball(this);
         this.bonus = new Bonus(this);
         this.bonusBall = new BonusBall(this);
-        this.bonusBall2 = new BonusBall(this);
     }
 
     public void update() {
@@ -127,14 +125,10 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
 
         if(bonusBall.visibleBall) {
             this.bonusBall.update(this.player1, this.player2, this.ball);
-            this.bonusBall2.update(this.player1, this.player2, this.ball);
         }
-        if(bonusBall2.visibleBall) {
-            this.bonusBall.update(this.player1, this.player2, this.ball);
-            this.bonusBall2.update(this.player1, this.player2, this.ball);
-        }
-        this.bonus.update(this.ball, this.bonusBall, this.bonusBall2);
-        this.ball.update(this.player1, this.player2, this.bonusBall, this.bonusBall2); // updatvane na topkata (funkciqta idva ot nego klas t1i kato pi6e this(demek ot tozi klas,
+
+        this.bonus.update(this.ball, this.bonusBall);
+        this.ball.update(this.player1, this.player2, this.bonusBall); // updatvane na topkata (funkciqta idva ot nego klas t1i kato pi6e this(demek ot tozi klas,
     }                                                 // posle ball(definiciqta ot na4aloto na tozi klas Ball ball) i funkciqta update on klasa Ball
                                                       // koqto ima atributi paddle1 i paddle2
     public void render(Graphics2D g) {
@@ -196,13 +190,6 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
             }
             if (bonusBall.visibleBall) {
                 this.bonusBall.render(g);
-            } else {
-                bonusBall2.visibleBall = false;
-            }
-            if (bonusBall2.visibleBall) {
-                this.bonusBall2.render(g);
-            } else {
-                bonusBall.visibleBall = false;
             }
 
         }

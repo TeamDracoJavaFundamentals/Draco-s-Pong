@@ -22,7 +22,7 @@ public class Bonus {
         this.random = new Random();
     }
 
-    public void update(Ball ball, BonusBall bonusBall, BonusBall bonusBall2) {
+    public void update(Ball ball, BonusBall bonusBall) {
         if (ball.amountOfHits % 20 == 15) {
             visible = true;
             this.spawn();
@@ -31,7 +31,6 @@ public class Bonus {
         if (this.checkCollision(ball) == 1) {
             if (visible) {
                 bonusBall.visibleBall = true;
-                bonusBall2.visibleBall = true;
                 bonusBall.spawn();
             }
             visible = false;
