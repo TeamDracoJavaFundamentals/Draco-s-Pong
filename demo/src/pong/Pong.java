@@ -32,8 +32,6 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
     public boolean up;
     public boolean down;
     public int gameStatus = 0;
-    public int previousGameStatus=0;
-    public int br;
     public int scoreLimit = 7;
     public int playerWon;
     public int botDifficulty;
@@ -151,7 +149,8 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
                 g.setFont(new Font("Arial", 1, 30));
                 g.drawString("Press Space to Play", this.width / 2 - 150, this.height / 2 - 25);
                 g.drawString("Press Shift to Play with Draco", this.width / 2 - 200, this.height / 2 + 25);
-                g.drawString("<< Score Limit: " + this.scoreLimit + " >>", this.width / 2 - 150, this.height / 2 + 75);
+                g.drawString("Press I for Instructions", this.width / 2 - 165, this.height / 2 + 75);
+                g.drawString("<< Score Limit: " + this.scoreLimit + " >>", this.width / 2 - 150, this.height / 2 + 125);
             }
         }
 
@@ -300,22 +299,15 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
                 this.start(); // start funkciqta ot na4aloto na klasa
             }
         }
-        else if (br == 1){
-            if(this.previousGameStatus ==2)
-            {
-                br--;
-                this.gameStatus = 1;
-            }
-            else
-            {
-                br--;
-                this.gameStatus = this.previousGameStatus;
-            }
-        }
+
         else if (id == KeyEvent.VK_I){
-            br++;
-            this.previousGameStatus = this.gameStatus;
-            this.gameStatus =5;
+            if(this.gameStatus == 0){
+                this.gameStatus = 5;
+            }
+            else if(this.gameStatus == 5){
+                this.gameStatus = 0;
+            }
+
         }
     }
 
