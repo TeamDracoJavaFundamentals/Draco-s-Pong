@@ -47,7 +47,7 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         this.renderer = new Renderer();
         this.jframe.setSize(this.width + 15, this.height + 35);
         this.jframe.setVisible(true); // ako tova go nqma, nqma da se vizualizira ni6to
-        this.jframe.setDefaultCloseOperation(3); // zatvarq se 4rez butona 'b1x'
+        this.jframe.setDefaultCloseOperation(3); // zatvarq se 4rez butona 'x'
         this.jframe.add(this.renderer); // dobavq obekt or Renderer
         this.jframe.addKeyListener(this); // funkciq ot interface-a, a this ozna4ava 4e stava v1pros za s1otvetniq class v koito se namirame v momenta
         this.jframe.addKeyListener(Pong.pong); // - || -
@@ -99,8 +99,8 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
             }
 
             if(this.botMoves < 10) {
-                if(this.player2.y + this.player2.height / 2 < this.ball.y) { // ako b1y coord + viso4inata na paddle-a sa po malki
-                    this.player2.move(false);                                // ot b1y coord na top4eto se mesti paddle-a nadolu
+                if(this.player2.y + this.player2.height / 2 < this.ball.y) { // ako y coord + viso4inata na paddle-a sa po malki
+                    this.player2.move(false);                                // ot y coord na top4eto se mesti paddle-a nadolu
                     ++this.botMoves;
                 }
 
@@ -130,7 +130,7 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         this.bonus.update(this.ball, this.bonusBall);
         this.ball.update(this.player1, this.player2, this.bonusBall); // updatvane na topkata (funkciqta idva ot nego klas t1i kato pi6e this(demek ot tozi klas,
     }                                                 // posle ball(definiciqta ot na4aloto na tozi klas Ball ball) i funkciqta update on klasa Ball
-                                                      // koqto ima atributi paddle1 i paddle2
+    // koqto ima atributi paddle1 i paddle2
     public void render(Graphics2D g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, this.width, this.height);
@@ -149,7 +149,8 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
                 g.setFont(new Font("Arial", 1, 30));
                 g.drawString("Press Space to Play", this.width / 2 - 150, this.height / 2 - 25);
                 g.drawString("Press Shift to Play with Draco", this.width / 2 - 200, this.height / 2 + 25);
-                g.drawString("<< Score Limit: " + this.scoreLimit + " >>", this.width / 2 - 150, this.height / 2 + 75);
+                g.drawString("Press I for Instructions", this.width / 2 - 165, this.height / 2 + 75);
+                g.drawString("<< Score Limit: " + this.scoreLimit + " >>", this.width / 2 - 150, this.height / 2 + 125);
             }
         }
 
@@ -209,6 +210,21 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
             g.drawString("Press ESC for Menu", this.width / 2 - 140, this.height / 2 + 25);
         }
 
+        if(this.gameStatus == 5){//instructions
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Arial", 1, 50));
+            g.drawString("Instructions", this.width / 2 - 140, this.height / 2 -175);
+            g.setFont(new Font("Arial", 1, 30));
+            g.drawString("Player 1: W, S - move up and down", this.width / 2 - 250, this.height / 2 -125);
+            g.drawString("Player 2: Up, Down - move up and down", this.width / 2 - 250, this.height / 2 -75);
+            g.drawString("Esc - Main menu", this.width / 2 - 250, this.height / 2 -25);
+            g.drawString("Space - Pause", this.width / 2 - 250, this.height / 2 +25);
+            g.drawString("Press I Again to exit Instructions", this.width / 2 - 250, this.height / 2 +75);
+
+
+        }
+
+
     }
 
     public void actionPerformed(ActionEvent e) { // funkciq ot interfasite pak (ActionListener)
@@ -253,12 +269,12 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
             if(this.gameStatus == 2 || this.gameStatus == 3) {
                 this.gameStatus = 0;
             } else {
-                    if(!this.selectingDifficulty) {
-                        this.bot = false;
-                    } else {
-                        this.selectingDifficulty = false;
-                    }
-                    this.gameStatus = 0;
+                if(!this.selectingDifficulty) {
+                    this.bot = false;
+                } else {
+                    this.selectingDifficulty = false;
+                }
+                this.gameStatus = 0;
             }
         } else if(id == KeyEvent.VK_SHIFT && this.gameStatus == 0) { // shift
             this.bot = true;
@@ -282,6 +298,16 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
 
                 this.start(); // start funkciqta ot na4aloto na klasa
             }
+        }
+
+        else if (id == KeyEvent.VK_I){
+            if(this.gameStatus == 0){
+                this.gameStatus = 5;
+            }
+            else if(this.gameStatus == 5){
+                this.gameStatus = 0;
+            }
+
         }
     }
 
