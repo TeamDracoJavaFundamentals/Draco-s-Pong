@@ -32,6 +32,8 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
     public boolean up;
     public boolean down;
     public int gameStatus = 0;
+    public int previousGameStatus=0;
+    public int br;
     public int scoreLimit = 7;
     public int playerWon;
     public int botDifficulty;
@@ -209,6 +211,21 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
             g.drawString("Press ESC for Menu", this.width / 2 - 140, this.height / 2 + 25);
         }
 
+        if(this.gameStatus == 5){//instructions
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Arial", 1, 50));
+            g.drawString("Instructions", this.width / 2 - 140, this.height / 2 -175);
+            g.setFont(new Font("Arial", 1, 30));
+            g.drawString("Player 1: W, S - move up and down", this.width / 2 - 250, this.height / 2 -125);
+            g.drawString("Player 2: Up, Down - move up and down", this.width / 2 - 250, this.height / 2 -75);
+            g.drawString("Esc - Main menu", this.width / 2 - 250, this.height / 2 -25);
+            g.drawString("Space - Pause", this.width / 2 - 250, this.height / 2 +25);
+            g.drawString("Press I Again to exit Instructions", this.width / 2 - 250, this.height / 2 +75);
+
+
+        }
+
+
     }
 
     public void actionPerformed(ActionEvent e) { // funkciq ot interfasite pak (ActionListener)
@@ -282,6 +299,23 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
 
                 this.start(); // start funkciqta ot na4aloto na klasa
             }
+        }
+        else if (br == 1){
+            if(this.previousGameStatus ==2)
+            {
+                br--;
+                this.gameStatus = 1;
+            }
+            else
+            {
+                br--;
+                this.gameStatus = this.previousGameStatus;
+            }
+        }
+        else if (id == KeyEvent.VK_I){
+            br++;
+            this.previousGameStatus = this.gameStatus;
+            this.gameStatus =5;
         }
     }
 
