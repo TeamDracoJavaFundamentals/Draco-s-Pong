@@ -30,8 +30,8 @@ public class Paddle {
 
     public void render(Graphics g) { // iz4ertava gi
         g.setColor(Color.WHITE);
-        g.fillRect(this.x, this.y, this.width, this.height);
-                                                            //izpolzvane na kartinka za paddle
+        //g.fillRect(this.x, this.y, this.width, this.height);
+        //izpolzvane na kartinka za paddle
         try {
             Image imgPaddle = ImageIO.read(new File("src/pong/paddle.jpg"));
             g.drawImage(imgPaddle, this.x, this.y, null);
@@ -43,7 +43,7 @@ public class Paddle {
     }
 
     public void move(boolean up) {              // ako e istina i ako y coord na paddle-a - 25 dostiga nad
-        byte speed = 25;                        // nai gornata to4ka na prozoreca, da napravi y=0 t1i kato v
+        byte speed = 35;                        // nai gornata to4ka na prozoreca, da napravi y=0 t1i kato v
         if(up) {                                // tezi igri x=0 i y=0 v nai gorniq lqv agal i y raste nadolu
             if(this.y - speed > 0) {            // i s1otvetno posle za nadolu
                 this.y -= speed;
@@ -58,4 +58,3 @@ public class Paddle {
 
     }
 }
-

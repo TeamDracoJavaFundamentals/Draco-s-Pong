@@ -6,15 +6,14 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.io.File;
 import java.io.IOException;
-import java.util.Random;
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.Timer;
 import pong.Ball;
 import pong.Paddle;
 import pong.Renderer;
 import pong.BackgroundPanel;
-
+import java.util.Random;
+import javax.swing.JFrame;
+import javax.swing.Timer;
 
 public class Pong implements ActionListener, KeyListener { // tezi 2te sa interface-i vgradeni v java
     public static Pong pong; // obekt ot klasa
@@ -24,6 +23,9 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
     public Paddle player1; // obekti ot klasa Paddle
     public Paddle player2;
     public Ball ball; // obekt ot klasa Ball
+    public Bonus bonus;
+    public BonusBall bonusBall;
+    public BonusBall bonusBall2;
     public boolean bot = false;
     public boolean selectingDifficulty;
     public boolean w;
@@ -58,6 +60,9 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         this.player1 = new Paddle(this, 1); // s1zdava obektite, kato vzema 4rez 'this' definiciqta ot po gore
         this.player2 = new Paddle(this, 2);
         this.ball = new Ball(this);
+        this.bonus = new Bonus(this);
+        this.bonusBall = new BonusBall(this);
+        this.bonusBall2 = new BonusBall(this);
     }
 
     public void update() {
@@ -120,30 +125,36 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
             }
         }
 
-        this.ball.update(this.player1, this.player2); // updatvane na topkata (funkciqta idva ot nego klas t1i kato pi6e this(demek ot tozi klas,
+        if(bonusBall.visibleBall) {
+            this.bonusBall.update(this.player1, this.player2, this.ball);
+            this.bonusBall2.update(this.player1, this.player2, this.ball);
+        }
+        if(bonusBall2.visibleBall) {
+            this.bonusBall.update(this.player1, this.player2, this.ball);
+            this.bonusBall2.update(this.player1, this.player2, this.ball);
+        }
+        this.bonus.update(this.ball, this.bonusBall, this.bonusBall2);
+        this.ball.update(this.player1, this.player2, this.bonusBall, this.bonusBall2); // updatvane na topkata (funkciqta idva ot nego klas t1i kato pi6e this(demek ot tozi klas,
     }                                                 // posle ball(definiciqta ot na4aloto na tozi klas Ball ball) i funkciqta update on klasa Ball
                                                       // koqto ima atributi paddle1 i paddle2
     public void render(Graphics2D g) {
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, this.width, this.height);
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-
         try {
             Image img = ImageIO.read(new File("src/pong/playGround.jpg")); //izchertavane na background image
             g.drawImage(img, 0, 0, null);
         } catch (IOException ioe){
             System.out.println("image: background not found");
         }
-
         if(this.gameStatus == 0) { // glavno menu
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", 1, 50));
-            g.drawString("DRACO'S PONG", this.width / 2 - 190, 70);
+            g.drawString("DRACO'S PONG", this.width / 2 - 190, 100);
             if(!this.selectingDifficulty) {
                 g.setFont(new Font("Arial", 1, 30));
                 g.drawString("Press Space to Play", this.width / 2 - 150, this.height / 2 - 25);
-                g.drawString("Press Shift to Play with Draco", this.width / 2 - 220, this.height / 2 + 25);
+                g.drawString("Press Shift to Play with Draco", this.width / 2 - 200, this.height / 2 + 25);
                 g.drawString("<< Score Limit: " + this.scoreLimit + " >>", this.width / 2 - 150, this.height / 2 + 75);
             }
         }
@@ -151,7 +162,7 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         if(this.selectingDifficulty) { // menu pri natiskane na shift
             String string = this.botDifficulty == 0?"Easy":(this.botDifficulty == 1?"Medium":"Hard");
             g.setFont(new Font("Arial", 1, 30));
-            g.drawString("<< Draco's Difficulty: " + string + " >>", this.width / 2 - 210, this.height / 2 - 25);
+            g.drawString("<< Draco's Difficulty: " + string + " >>", this.width / 2 - 180, this.height / 2 - 25);
             g.drawString("Press Space to Play", this.width / 2 - 150, this.height / 2 + 25);
             g.drawString("Press ESC for Menu", this.width / 2 - 150, this.height / 2 + 75);
         }
@@ -162,7 +173,13 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
             g.drawString("PAUSED", this.width / 2 - 103, this.height / 2 - 25);
         }
 
-        if(this.gameStatus == 1 || this.gameStatus == 2) { // prez igrata
+        if(this.gameStatus == 4) {
+            g.setColor(Color.WHITE);
+            g.setFont(new Font("Arial", 1, 50));
+            g.drawString("Press Space To Begin", this.width / 2 - 260, this.height / 2 - 25);
+        }
+
+        if(this.gameStatus == 1 || this.gameStatus == 2 || this.gameStatus == 4) { // prez igrata
             g.setColor(Color.WHITE);
             g.setStroke(new BasicStroke(5.0F));
             g.drawLine(this.width / 2, 0, this.width / 2, this.height);
@@ -174,12 +191,26 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
             this.player1.render(g); // izpolzva render funkciite ot drugite klasove za da updatva kartinata
             this.player2.render(g);
             this.ball.render(g);
+            if (bonus.visible) {
+                this.bonus.render(g);
+            }
+            if (bonusBall.visibleBall) {
+                this.bonusBall.render(g);
+            } else {
+                bonusBall2.visibleBall = false;
+            }
+            if (bonusBall2.visibleBall) {
+                this.bonusBall2.render(g);
+            } else {
+                bonusBall.visibleBall = false;
+            }
+
         }
 
         if(this.gameStatus == 3) { // menu na pobeda
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", 1, 50));
-            g.drawString("DRACO'S PONG", this.width / 2 - 190, 70);
+            g.drawString("DRACO'S PONG", this.width / 2 - 190, 100);
             if(this.bot && this.playerWon == 2) {
                 g.drawString("Draco Wins!", this.width / 2 - 150, 200);
             } else {
@@ -246,11 +277,14 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
             this.bot = true;
             this.selectingDifficulty = true;
         } else if(id == KeyEvent.VK_SPACE) { // space
-            if(this.gameStatus != 0 && this.gameStatus != 3) {
+            if(this.gameStatus != 0 && this.gameStatus != 3 ) {
                 if(this.gameStatus == 1) {
                     this.gameStatus = 2;
                 } else if(this.gameStatus == 2) {
                     this.gameStatus = 1;
+                }
+                if(this.gameStatus == 4){
+                    this.gameStatus = 2;
                 }
             } else {
                 if(!this.selectingDifficulty) {
@@ -262,7 +296,6 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
                 this.start(); // start funkciqta ot na4aloto na klasa
             }
         }
-
     }
 
     public void keyReleased(KeyEvent e) {
@@ -281,4 +314,4 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
 
     public void keyTyped(KeyEvent e) { // nqma zna4enie 4e e prazna, ako se implementira interface
     }                                   // trqbva da se vkarat vsi4ki negovi funkcii dori i da ne se izpolzvat
-}                                         // demek ne se trie
+}
