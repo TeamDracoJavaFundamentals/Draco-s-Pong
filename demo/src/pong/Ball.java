@@ -23,11 +23,18 @@ public class Ball {
     private Pong pong;
     public int amount;
     public int amountOfHits;
+    public Image imgPaddle;
 
     public Ball(Pong pong) { //construktor s atribut obekt ot Pong
         this.pong = pong;
         this.random = new Random();
-        this.spawn(); // funkciq na klasa za s1zdavane na top4eto v sredata na ekrana
+        this.spawn();
+        try {
+            this.imgPaddle = ImageIO.read(new File("src/pong/ball.png"));
+        } catch (IOException ioe) {
+            System.out.println("image: ball not found");
+        }
+        // funkciq na klasa za s1zdavane na top4eto v sredata na ekrana
     }                  // i izpra6tane v s1otvetna posoka
 
     public void update(Paddle paddle1, Paddle paddle2, BonusBall bonusBall, Bonus bonus) {
@@ -122,11 +129,6 @@ public class Ball {
     public void render(Graphics g) { // iz4ertava top4eto
         g.setColor(Color.WHITE);
         //g.fillOval(this.x, this.y, this.width, this.height);
-        try {
-            Image imgPaddle = ImageIO.read(new File("src/pong/ball.png"));
-            g.drawImage(imgPaddle, this.x, this.y, null);
-        } catch (IOException ioe) {
-            System.out.println("image: ball not found");
-        }
+        g.drawImage(this.imgPaddle, this.x, this.y, null);
     }
 }
