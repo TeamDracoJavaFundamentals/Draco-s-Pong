@@ -19,8 +19,6 @@ public class BonusBall {
     public int amount;
     public Random random;
     private Pong pong;
-    private Ball ball;
-    private Bonus bonus;
     public boolean visibleBall;
 
     public BonusBall(Pong pong) { //construktor s atribut obekt ot Pong
@@ -29,7 +27,7 @@ public class BonusBall {
         this.spawn(); // funkciq na klasa za s1zdavane na top4eto v sredata na ekrana
     }                  // i izpra6tane v s1otvetna posoka
 
-    public void update(Paddle paddle1, Paddle paddle2, Ball ball) {
+    public void update(Paddle paddle1, Paddle paddle2, Ball ball, Bonus bonus) {
         byte speed = 2;
         this.x += this.motionX * speed;
         this.y += this.motionY * speed;
@@ -77,12 +75,20 @@ public class BonusBall {
             ++paddle2.score;
             this.spawn();
             this.visibleBall = false;
+            bonus.visible = false;
+            bonus.possible = true;
+            paddle1.pVisible = true;
+            paddle2.pVisible = true;
             ball.spawn();
             pong.gameStatus = 4;                                       // respawnva top4eto po sredata
         } else if (this.checkCollision(paddle2) == 2) {
             ++paddle1.score;
             this.spawn();
             this.visibleBall = false;
+            bonus.visible = false;
+            bonus.possible = true;
+            paddle1.pVisible = true;
+            paddle2.pVisible = true;
             ball.spawn();
             pong.gameStatus = 4;
         }

@@ -14,6 +14,7 @@ public class Paddle {
     public int width = 50;
     public int height = 250;
     public int score;
+    public boolean pVisible = true;
 
     public Paddle(Pong pong, int paddleNumber) { // constructor na klasa s atributi Pong obekt i nomer na paddle-a
         this.paddleNumber = paddleNumber;
@@ -29,15 +30,19 @@ public class Paddle {
     }
 
     public void render(Graphics g) { // iz4ertava gi
-        g.setColor(Color.WHITE);
-        //g.fillRect(this.x, this.y, this.width, this.height);
-        //izpolzvane na kartinka za paddle
-        try {
-            Image imgPaddle = ImageIO.read(new File("src/pong/paddle.jpg"));
-            g.drawImage(imgPaddle, this.x, this.y, null);
-        } catch (IOException ioe) {
-            System.out.println("image: paddle not found");
+        if (pVisible) {
+            try {
+                Image imgPaddle = ImageIO.read(new File("src/pong/paddle.jpg"));
+                g.drawImage(imgPaddle, this.x, this.y, null);
+            } catch (IOException ioe) {
+                System.out.println("image: paddle not found");
+            }
+        } else {
+            Color color = new Color(0, 0, 0, 0x10);
+            g.setColor(color);
+            g.fillRect(this.x, this.y, this.width, this.height);
         }
+
 
 
     }

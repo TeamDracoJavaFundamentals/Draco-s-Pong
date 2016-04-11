@@ -30,7 +30,7 @@ public class Ball {
         this.spawn(); // funkciq na klasa za s1zdavane na top4eto v sredata na ekrana
     }                  // i izpra6tane v s1otvetna posoka
 
-    public void update(Paddle paddle1, Paddle paddle2, BonusBall bonusBall) {
+    public void update(Paddle paddle1, Paddle paddle2, BonusBall bonusBall, Bonus bonus) {
         byte speed = 2;
         this.x += this.motionX * speed;
         this.y += this.motionY * speed;
@@ -77,11 +77,19 @@ public class Ball {
         if (this.checkCollision(paddle1) == 2) {                 // v slu4ai 4e tazi funkciq checkCollision v1rne 2
             ++paddle2.score;
             bonusBall.visibleBall = false;
+            bonus.visible = false;
+            bonus.possible = true;
+            paddle1.pVisible = true;
+            paddle2.pVisible = true;
             this.spawn();
             pong.gameStatus = 4;                                                        // respawnva top4eto po sredata
         } else if (this.checkCollision(paddle2) == 2) {
             ++paddle1.score;
             bonusBall.visibleBall = false;
+            bonus.visible = false;
+            bonus.possible = true;
+            paddle1.pVisible = true;
+            paddle2.pVisible = true;
             this.spawn();
             pong.gameStatus = 4;
         }

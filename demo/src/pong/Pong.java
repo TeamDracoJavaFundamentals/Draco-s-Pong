@@ -124,11 +124,11 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         }
 
         if(bonusBall.visibleBall) {
-            this.bonusBall.update(this.player1, this.player2, this.ball);
+            this.bonusBall.update(this.player1, this.player2, this.ball, this.bonus);
         }
 
-        this.bonus.update(this.ball, this.bonusBall);
-        this.ball.update(this.player1, this.player2, this.bonusBall); // updatvane na topkata (funkciqta idva ot nego klas t1i kato pi6e this(demek ot tozi klas,
+        this.bonus.update(this.ball, this.bonusBall, this.player1, this.player2);
+        this.ball.update(this.player1, this.player2, this.bonusBall, this.bonus); // updatvane na topkata (funkciqta idva ot nego klas t1i kato pi6e this(demek ot tozi klas,
     }                                                 // posle ball(definiciqta ot na4aloto na tozi klas Ball ball) i funkciqta update on klasa Ball
     // koqto ima atributi paddle1 i paddle2
     public void render(Graphics2D g) {
@@ -191,6 +191,7 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
             }
             if (bonusBall.visibleBall) {
                 this.bonusBall.render(g);
+                bonus.possible = false;
             }
 
         }
