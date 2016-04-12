@@ -21,7 +21,7 @@ import javax.swing.Timer;
 public class Pong implements ActionListener, KeyListener { // tezi 2te sa interface-i vgradeni v java
     public static Pong pong; // obekt ot klasa
     public int width = 1000; // razmeri na prozoreca
-    public int height = 713;
+    public int height = 700;
     public Renderer renderer; // obekt ot klasa Renderer
     public Paddle player1; // obekti ot klasa Paddle
     public Paddle player2;
@@ -164,14 +164,8 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         g.setColor(Color.BLACK);
         g.fillRect(0, 0, this.width, this.height);
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-       // try {
-       //     Image img = ImageIO.read(new File("src/pong/playGround.jpg")); //izchertavane na background image
-       //     g.drawImage(img, 0, 0, null);
-      //  } catch (IOException ioe){
-      //      System.out.println("image: background not found");
-      //  }
-        //Kartinite se zarejdaha postoqno ,ot kadeto idwashe lag-a !
         g.drawImage(this.img, 0, 0, null);
+
         if (this.gameStatus == 0) { // glavno menu
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", 1, 50));
@@ -179,7 +173,7 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
             if (!this.selectingDifficulty) {
                 g.setFont(new Font("Arial", 1, 30));
                 g.drawString("Press Space to Play", this.width / 2 - 150, this.height / 2 - 25);
-                g.drawString("Press Shift to Play with Draco", this.width / 2 - 200, this.height / 2 + 25);
+                g.drawString("Press Shift to Play with Draco", this.width / 2 - 220, this.height / 2 + 25);
                 g.drawString("Press I for Instructions", this.width / 2 - 165, this.height / 2 + 75);
                 g.drawString("<< Score Limit: " + this.scoreLimit + " >>", this.width / 2 - 150, this.height / 2 + 125);
             }
@@ -188,7 +182,7 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         if (this.selectingDifficulty) { // menu pri natiskane na shift
             String string = this.botDifficulty == 0 ? "Easy" : (this.botDifficulty == 1 ? "Medium" : "Hard");
             g.setFont(new Font("Arial", 1, 30));
-            g.drawString("<< Draco's Difficulty: " + string + " >>", this.width / 2 - 180, this.height / 2 - 25);
+            g.drawString("<< Draco's Difficulty: " + string + " >>", this.width / 2 - 220, this.height / 2 - 25);
             g.drawString("Press Space to Play", this.width / 2 - 150, this.height / 2 + 25);
             g.drawString("Press ESC for Menu", this.width / 2 - 150, this.height / 2 + 75);
         }
