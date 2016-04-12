@@ -25,6 +25,8 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
     public Ball ball; // obekt ot klasa Ball
     public Bonus bonus;
     public BonusBall bonusBall;
+    public BonusWall bonusWall1;
+    public BonusWall bonusWall2;
     public boolean bot = false;
     public boolean selectingDifficulty;
     public boolean w;
@@ -61,6 +63,8 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         this.ball = new Ball(this);
         this.bonus = new Bonus(this);
         this.bonusBall = new BonusBall(this);
+        this.bonusWall1 = new BonusWall(this, 1);
+        this.bonusWall2 = new BonusWall(this, 2);
     }
 
     public void update() {
@@ -124,11 +128,26 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         }
 
         if(bonusBall.visibleBall) {
-            this.bonusBall.update(this.player1, this.player2, this.ball, this.bonus);
+            this.bonusBall.update(this.player1,
+                    this.player2,
+                    this.ball,
+                    this.bonus);
+        }
+        if(bonus.wallVisible) {
+            this.bonusWall1.update(this.bonus);
+            this.bonusWall2.update(this.bonus);
         }
 
-        this.bonus.update(this.ball, this.bonusBall, this.player1, this.player2);
-        this.ball.update(this.player1, this.player2, this.bonusBall, this.bonus); // updatvane na topkata (funkciqta idva ot nego klas t1i kato pi6e this(demek ot tozi klas,
+        this.bonus.update(this.ball,
+                this.bonusBall,
+                this.player1,
+                this.player2);
+        this.ball.update(this.player1,
+                this.player2,
+                this.bonusBall,
+                this.bonus,
+                this.bonusWall1,
+                this.bonusWall2); // updatvane na topkata (funkciqta idva ot nego klas t1i kato pi6e this(demek ot tozi klas,
     }                                                 // posle ball(definiciqta ot na4aloto na tozi klas Ball ball) i funkciqta update on klasa Ball
     // koqto ima atributi paddle1 i paddle2
     public void render(Graphics2D g) {
@@ -191,6 +210,11 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
             }
             if (bonusBall.visibleBall) {
                 this.bonusBall.render(g);
+                bonus.possible = false;
+            }
+            if(bonus.wallVisible) {
+                this.bonusWall1.render(g);
+                this.bonusWall2.render(g);
                 bonus.possible = false;
             }
 

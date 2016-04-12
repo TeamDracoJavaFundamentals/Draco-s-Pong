@@ -27,7 +27,10 @@ public class BonusBall {
         this.spawn(); // funkciq na klasa za s1zdavane na top4eto v sredata na ekrana
     }                  // i izpra6tane v s1otvetna posoka
 
-    public void update(Paddle paddle1, Paddle paddle2, Ball ball, Bonus bonus) {
+    public void update(Paddle paddle1,
+                       Paddle paddle2,
+                       Ball ball,
+                       Bonus bonus) {
         byte speed = 2;
         this.x += this.motionX * speed;
         this.y += this.motionY * speed;

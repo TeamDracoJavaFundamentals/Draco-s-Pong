@@ -30,7 +30,12 @@ public class Ball {
         this.spawn(); // funkciq na klasa za s1zdavane na top4eto v sredata na ekrana
     }                  // i izpra6tane v s1otvetna posoka
 
-    public void update(Paddle paddle1, Paddle paddle2, BonusBall bonusBall, Bonus bonus) {
+    public void update(Paddle paddle1,
+                       Paddle paddle2,
+                       BonusBall bonusBall,
+                       Bonus bonus,
+                       BonusWall bonusWall1,
+                       BonusWall bonusWall2) {
         byte speed = 2;
         this.x += this.motionX * speed;
         this.y += this.motionY * speed;
@@ -77,6 +82,7 @@ public class Ball {
         if (this.checkCollision(paddle1) == 2) {                 // v slu4ai 4e tazi funkciq checkCollision v1rne 2
             ++paddle2.score;
             bonusBall.visibleBall = false;
+            bonus.wallVisible = false;
             bonus.visible = false;
             bonus.possible = true;
             paddle1.pVisible = true;
@@ -86,12 +92,37 @@ public class Ball {
         } else if (this.checkCollision(paddle2) == 2) {
             ++paddle1.score;
             bonusBall.visibleBall = false;
+            bonus.wallVisible = false;
             bonus.visible = false;
             bonus.possible = true;
             paddle1.pVisible = true;
             paddle2.pVisible = true;
             this.spawn();
             pong.gameStatus = 4;
+        }
+
+        if (bonus.wallVisible) {
+            if (this.checkCollisionWall(bonusWall2) == 1) {
+                if (this.amountOfHits < 20) {
+                    amount = this.amountOfHits / 5;
+                }
+                this.motionX = 3 + amount;
+                this.motionY = this.motionY + 1;
+                if (this.motionY == 0) {
+                    motionY = -random.nextInt((6 - 3) + 3);
+                }
+
+            } else if (this.checkCollisionWall(bonusWall1) == 1) {
+                if (this.amountOfHits < 20) {
+                    amount = this.amountOfHits / 5;
+                }
+                this.motionX = -3 - amount;
+                this.motionY = this.motionY - 1;
+                if (this.motionY == 0) {
+                    motionY = random.nextInt((6 - 3) + 3);
+                }
+
+            }
         }
 
     }
@@ -111,8 +142,15 @@ public class Ball {
 
     }
 
-    public int checkCollision(Paddle paddle) { // istinskata proverka dali top4eto udrq paddle-a koqto vr16ta 0, 1 ili 2
-        return this.x < paddle.x + paddle.width &&  // oba4e nikoga nqma da v1rne 0 za6toto taka sa postaveni usloviqta
+    public int checkCollisionWall(BonusWall bonusWall) {
+        return this.x < bonusWall.x + bonusWall.width &&
+                this.x + this.width > bonusWall.x &&
+                this.y < bonusWall.y + bonusWall.height &&
+                this.y + this.height > bonusWall.y ? 1 : 0;
+    }
+
+    public int checkCollision(Paddle paddle) {
+        return this.x < paddle.x + paddle.width &&
                 this.x + this.width > paddle.x &&
                 this.y < paddle.y + paddle.height &&
                 this.y + this.height > paddle.y ? 1 : ((paddle.x <= this.x || paddle.paddleNumber != 1) &&

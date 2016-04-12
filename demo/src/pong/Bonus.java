@@ -15,8 +15,8 @@ public class Bonus {
     public Random random;
     public boolean visible = false;
     private Pong pong;
-    private BonusBall bonusBall;
     public boolean possible = true;
+    public boolean wallVisible = false;
 
     public Bonus(Pong pong) {
         this.pong = pong;
@@ -41,6 +41,12 @@ public class Bonus {
                 paddle1.pVisible = false;
                 paddle2.pVisible = false;
                 possible = false;
+            }
+
+            visible = false;
+        } else if (this.checkCollision(ball) == 3) {
+            if (visible) {
+                wallVisible = true;
             }
 
             visible = false;
@@ -93,7 +99,11 @@ public class Bonus {
         //g.setColor(Color.green);
         //g.fillRect(this.b2x, this.b2y, this.width, this.height);
 
-        g.setColor(Color.CYAN);
-        g.fillRect(this.b3x, this.b3y, this.width, this.height);
+        try {
+            Image imgPaddle = ImageIO.read(new File("src/pong/bonus3.png"));
+            g.drawImage(imgPaddle, this.b3x, this.b3y, null);
+        } catch (IOException ioe){
+            System.out.println("image: ball not found");
+        }
     }
 }
