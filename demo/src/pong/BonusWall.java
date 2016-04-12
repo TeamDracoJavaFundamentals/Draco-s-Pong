@@ -39,7 +39,8 @@ public class BonusWall {
     }
 
     public void render(Graphics g) { // iz4ertava top4eto
-        g.setColor(Color.WHITE);
+        Color color = new Color(0, 0, 0, 0x80);
+        g.setColor(color);
         g.fillRect(this.x, this.y, this.width, this.height);
     }
 

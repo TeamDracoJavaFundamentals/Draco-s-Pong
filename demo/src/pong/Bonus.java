@@ -17,10 +17,30 @@ public class Bonus {
     private Pong pong;
     public boolean possible = true;
     public boolean wallVisible = false;
+    public Image imgBonus1;
+    public Image imgBonus2;
+    public Image imgBonus3;
 
     public Bonus(Pong pong) {
         this.pong = pong;
         this.random = new Random();
+        try {
+            this.imgBonus1 = ImageIO.read(new File("src/pong/bonus1.png"));
+        } catch (IOException ioe) {
+            System.out.println("image: ball not found");
+        }
+
+        try {
+            this.imgBonus2 = ImageIO.read(new File("src/pong/bonus2.png"));
+        } catch (IOException ioe) {
+            System.out.println("image: ball not found");
+        }
+
+        try {
+            this.imgBonus3 = ImageIO.read(new File("src/pong/bonus3.png"));
+        } catch (IOException ioe) {
+            System.out.println("image: ball not found");
+        }
     }
 
     public void update(Ball ball, BonusBall bonusBall, Paddle paddle1, Paddle paddle2) {
@@ -69,7 +89,7 @@ public class Bonus {
                 !(this.b1y > (ball.y + ball.height) || (this.b1y + this.height) < ball.y)) {
             return 1;
         } else if (!(this.b2x > (ball.x + ball.width) || (this.b2x + this.width) < ball.x) &&
-                !(this.b2y > (ball.y + ball.height) || (this.b2y + this.height) < ball.y)){
+                !(this.b2y > (ball.y + ball.height) || (this.b2y + this.height) < ball.y)) {
             return 2;
         } else if (!(this.b3x > (ball.x + ball.width) || (this.b3x + this.width) < ball.x) &&
                 !(this.b3y > (ball.y + ball.height) || (this.b3y + this.height) < ball.y)) {
@@ -80,30 +100,8 @@ public class Bonus {
     }
 
     public void render(Graphics g) {
-        //Color color = new Color(0, 0, 0, 0x33);
-        //g.setColor(color);
-        //g.fillRect(this.x, this.y, this.width, this.height);
-        try {
-            Image imgPaddle = ImageIO.read(new File("src/pong/bonus1.png"));
-            g.drawImage(imgPaddle, this.b1x, this.b1y, null);
-        } catch (IOException ioe){
-            System.out.println("image: ball not found");
-        }
-
-        try {
-            Image imgPaddle = ImageIO.read(new File("src/pong/bonus2.png"));
-            g.drawImage(imgPaddle, this.b2x, this.b2y, null);
-        } catch (IOException ioe){
-            System.out.println("image: ball not found");
-        }
-        //g.setColor(Color.green);
-        //g.fillRect(this.b2x, this.b2y, this.width, this.height);
-
-        try {
-            Image imgPaddle = ImageIO.read(new File("src/pong/bonus3.png"));
-            g.drawImage(imgPaddle, this.b3x, this.b3y, null);
-        } catch (IOException ioe){
-            System.out.println("image: ball not found");
-        }
+        g.drawImage(this.imgBonus1, this.b1x, this.b1y, null);
+        g.drawImage(this.imgBonus2, this.b2x, this.b2y, null);
+        g.drawImage(this.imgBonus3, this.b3x, this.b3y, null);
     }
 }
