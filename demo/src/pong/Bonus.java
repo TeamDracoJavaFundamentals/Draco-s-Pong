@@ -44,7 +44,7 @@ public class Bonus {
     }
 
     public void update(Ball ball, BonusBall bonusBall, Paddle paddle1, Paddle paddle2) {
-        if (ball.amountOfHits % 20 == 15 && possible) {
+        if (ball.amountOfHits % 20 == 6 && possible) {
             visible = true;
             this.spawn();
         }
