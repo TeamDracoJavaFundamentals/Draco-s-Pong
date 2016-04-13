@@ -45,6 +45,8 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
     public Random random;
     public JFrame jframe; // prozorecyt (vgraden klas 4rez swing library)
     public Image img;
+    public Image imgBlue;
+    public Image imgRed;
 
     public Pong() { // constructor na klasa // kartinite se zarevdat tuk ,oshte w samoto nachaloto
         try {
@@ -52,6 +54,20 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         } catch (IOException ioe) {
             System.out.println("image: background not found");
         }
+
+        try {
+            this.imgBlue = ImageIO.read(new File("src/pong/blue.jpg")); //izchertavane na background image
+        } catch (IOException ioe) {
+            System.out.println("image: background not found");
+        }
+
+        try {
+            this.imgRed = ImageIO.read(new File("src/pong/red.jpg")); //izchertavane na background image
+        } catch (IOException ioe) {
+            System.out.println("image: background not found");
+        }
+
+
         Timer timer = new Timer(20, this);
         this.random = new Random();
         this.jframe = new JFrame("Draco's Pong");
@@ -63,6 +79,7 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         this.jframe.addKeyListener(this); // funkciq ot interface-a, a this ozna4ava 4e stava v1pros za s1otvetniq class v koito se namirame v momenta
         this.jframe.addKeyListener(Pong.pong); // - || -
         timer.start();
+
     }
 
     public void start() {
@@ -166,6 +183,7 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.drawImage(this.img, 0, 0, null);
 
+
         if (this.gameStatus == 0) { // glavno menu
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", 1, 50));
@@ -200,14 +218,44 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         }
 
         if (this.gameStatus == 1 || this.gameStatus == 2 || this.gameStatus == 4) { // prez igrata
-            g.setColor(Color.WHITE);
-            g.setStroke(new BasicStroke(5.0F));
-            g.drawLine(this.width / 2, 0, this.width / 2, this.height);
-            g.setStroke(new BasicStroke(2.0F));
-            g.drawOval(this.width / 2 - 150, this.height / 2 - 150, 300, 300);
-            g.setFont(new Font("Arial", 1, 50));
-            g.drawString(String.valueOf(this.player1.score), this.width / 2 - 90, 50);
-            g.drawString(String.valueOf(this.player2.score), this.width / 2 + 65, 50);
+
+            if(this.player1.score > this.player2.score){ //smiana na cvetovete na background-a v zavisimost ot score-a
+                g.drawImage(this.imgBlue, 0, 0, null);
+
+                g.setColor(Color.WHITE);
+                g.setStroke(new BasicStroke(5.0F));
+                g.drawLine(this.width / 2, 0, this.width / 2, this.height);
+                g.setStroke(new BasicStroke(2.0F));
+                g.drawOval(this.width / 2 - 150, this.height / 2 - 150, 300, 300);
+                g.setFont(new Font("Arial", 1, 50));
+                g.drawString(String.valueOf(this.player1.score), this.width / 2 - 90, 50);
+                g.drawString(String.valueOf(this.player2.score), this.width / 2 + 65, 50);
+
+            } else if (this.player1.score < this.player2.score){
+
+                g.drawImage(this.imgRed, 0, 0, null);
+                g.setColor(Color.WHITE);
+                g.setStroke(new BasicStroke(5.0F));
+                g.drawLine(this.width / 2, 0, this.width / 2, this.height);
+                g.setStroke(new BasicStroke(2.0F));
+                g.drawOval(this.width / 2 - 150, this.height / 2 - 150, 300, 300);
+                g.setFont(new Font("Arial", 1, 50));
+                g.drawString(String.valueOf(this.player1.score), this.width / 2 - 90, 50);
+                g.drawString(String.valueOf(this.player2.score), this.width / 2 + 65, 50);
+            } else {
+                g.drawImage(this.img, 0, 0, null);
+                g.setColor(Color.WHITE);
+                g.setStroke(new BasicStroke(5.0F));
+                g.drawLine(this.width / 2, 0, this.width / 2, this.height);
+                g.setStroke(new BasicStroke(2.0F));
+                g.drawOval(this.width / 2 - 150, this.height / 2 - 150, 300, 300);
+                g.setFont(new Font("Arial", 1, 50));
+                g.drawString(String.valueOf(this.player1.score), this.width / 2 - 90, 50);
+                g.drawString(String.valueOf(this.player2.score), this.width / 2 + 65, 50);
+            }
+
+            //kray moj kod
+
             this.player1.render(g); // izpolzva render funkciite ot drugite klasove za da updatva kartinata
             this.player2.render(g);
             this.ball.render(g);
@@ -224,6 +272,7 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
                 bonus.possible = false;
             }
 
+
         }
 
         if (this.gameStatus == 3) { // menu na pobeda
@@ -232,6 +281,7 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
             g.drawString("DRACO'S PONG", this.width / 2 - 190, 100);
             if (this.bot && this.playerWon == 2) {
                 g.drawString("Draco Wins!", this.width / 2 - 150, 200);
+
             } else {
                 g.drawString("Player " + this.playerWon + " Wins!", this.width / 2 - 165, 200);
             }
