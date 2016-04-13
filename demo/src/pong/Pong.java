@@ -217,44 +217,15 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
             g.drawString("Press Space To Begin", this.width / 2 - 260, this.height / 2 - 25);
         }
 
-        if (this.gameStatus == 1 || this.gameStatus == 2 || this.gameStatus == 4) { // prez igrata
-
-            if(this.player1.score > this.player2.score){ //smiana na cvetovete na background-a v zavisimost ot score-a
-                g.drawImage(this.imgBlue, 0, 0, null);
-
-                g.setColor(Color.WHITE);
-                g.setStroke(new BasicStroke(5.0F));
-                g.drawLine(this.width / 2, 0, this.width / 2, this.height);
-                g.setStroke(new BasicStroke(2.0F));
-                g.drawOval(this.width / 2 - 150, this.height / 2 - 150, 300, 300);
-                g.setFont(new Font("Arial", 1, 50));
-                g.drawString(String.valueOf(this.player1.score), this.width / 2 - 90, 50);
-                g.drawString(String.valueOf(this.player2.score), this.width / 2 + 65, 50);
-
-            } else if (this.player1.score < this.player2.score){
-
-                g.drawImage(this.imgRed, 0, 0, null);
-                g.setColor(Color.WHITE);
-                g.setStroke(new BasicStroke(5.0F));
-                g.drawLine(this.width / 2, 0, this.width / 2, this.height);
-                g.setStroke(new BasicStroke(2.0F));
-                g.drawOval(this.width / 2 - 150, this.height / 2 - 150, 300, 300);
-                g.setFont(new Font("Arial", 1, 50));
-                g.drawString(String.valueOf(this.player1.score), this.width / 2 - 90, 50);
-                g.drawString(String.valueOf(this.player2.score), this.width / 2 + 65, 50);
-            } else {
-                g.drawImage(this.img, 0, 0, null);
-                g.setColor(Color.WHITE);
-                g.setStroke(new BasicStroke(5.0F));
-                g.drawLine(this.width / 2, 0, this.width / 2, this.height);
-                g.setStroke(new BasicStroke(2.0F));
-                g.drawOval(this.width / 2 - 150, this.height / 2 - 150, 300, 300);
-                g.setFont(new Font("Arial", 1, 50));
-                g.drawString(String.valueOf(this.player1.score), this.width / 2 - 90, 50);
-                g.drawString(String.valueOf(this.player2.score), this.width / 2 + 65, 50);
-            }
-
-            //kray moj kod
+        if (this.gameStatus == 1 || this.gameStatus == 2 || this.gameStatus == 4) {
+            g.setColor(Color.WHITE);
+            g.setStroke(new BasicStroke(5.0F));
+            g.drawLine(this.width / 2, 0, this.width / 2, this.height);
+            g.setStroke(new BasicStroke(2.0F));
+            g.drawOval(this.width / 2 - 150, this.height / 2 - 150, 300, 300);
+            g.setFont(new Font("Arial", 1, 50));
+            g.drawString(String.valueOf(this.player1.score), this.width / 2 - 90, 50);
+            g.drawString(String.valueOf(this.player2.score), this.width / 2 + 65, 50);
 
             this.player1.render(g); // izpolzva render funkciite ot drugite klasove za da updatva kartinata
             this.player2.render(g);
@@ -276,6 +247,11 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         }
 
         if (this.gameStatus == 3) { // menu na pobeda
+            if (this.playerWon == 1){
+                g.drawImage(this.imgBlue, 0, 0, null);
+            } else if (this.playerWon == 2 || this.bot){
+                g.drawImage(this.imgRed, 0, 0, null);
+            }
             g.setColor(Color.WHITE);
             g.setFont(new Font("Arial", 1, 50));
             g.drawString("DRACO'S PONG", this.width / 2 - 190, 100);
