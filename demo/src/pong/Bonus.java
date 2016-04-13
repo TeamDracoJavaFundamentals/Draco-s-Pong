@@ -4,6 +4,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.Random;
 
 public class Bonus {
@@ -46,6 +47,10 @@ public class Bonus {
     public void update(Ball ball, BonusBall bonusBall, Paddle paddle1, Paddle paddle2) {
         if (ball.amountOfHits % 20 == 6 && possible) {
             visible = true;
+            //this.spawn();
+        }
+
+        if (!visible) {
             this.spawn();
         }
 
@@ -74,14 +79,23 @@ public class Bonus {
     }
 
     public void spawn() {
-        this.b1x = this.pong.width / 2 - this.width / 2;
-        this.b1y = this.pong.height / 2 - this.height / 2;
+        this.b1x = randomWithRange(100, 900);
+        this.b1y = randomWithRange(100, 600);
 
-        this.b2x = this.pong.width / 2 - this.width / 2;
-        this.b2y = this.pong.height / 2 - this.pong.height / 6 - this.height / 2;
+        this.b2x = randomWithRange(100, 900);
+        this.b2y = randomWithRange(100, 600);
 
-        this.b3x = this.pong.width / 2 - this.width / 2;
-        this.b3y = this.pong.height / 2 + this.pong.height / 6 - this.height / 2;
+        this.b3x = randomWithRange(100, 900);
+        this.b3y = randomWithRange(100, 600);
+
+        if (b2x == b1x) {b2x += 60;}
+        if (b1x == b3x) {b1x += 60;}
+        if (b3x == b2x) {b3x += 60;}
+    }
+
+    public int randomWithRange(int min, int max) {
+        int range = (max - min) + 1;
+        return (int)(Math.random() * range) + min;
     }
 
     public int checkCollision(Ball ball) {

@@ -11,7 +11,7 @@ import java.io.IOException;
 public class BonusWall {
     public int x, y;
     public int width = 10;
-    public int height = 450;
+    public int height = 300;
     private Pong pong;
     private int wallNumber;
 
