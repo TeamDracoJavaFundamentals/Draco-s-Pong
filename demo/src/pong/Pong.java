@@ -72,7 +72,7 @@ public class Pong implements ActionListener, KeyListener { // tezi 2te sa interf
         this.random = new Random();
         this.jframe = new JFrame("Draco's Pong");
         this.renderer = new Renderer();
-        this.jframe.setSize(this.width + 15, this.height + 35);
+        this.jframe.setSize(this.width + 15, this.height + 47);
         this.jframe.setVisible(true); // ako tova go nqma, nqma da se vizualizira ni6to
         this.jframe.setDefaultCloseOperation(3); // zatvarq se 4rez butona 'x'
         this.jframe.add(this.renderer); // dobavq obekt or Renderer
