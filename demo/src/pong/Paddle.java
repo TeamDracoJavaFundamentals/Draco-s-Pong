@@ -20,10 +20,10 @@ public class Paddle {
     public boolean pVisible = true;
     public Image imgPaddle;
 
-    public Paddle(Pong pong, int paddleNumber) { // constructor na klasa s atributi Pong obekt i nomer na paddle-a
+    public Paddle(Pong pong, int paddleNumber) { // constructor // sets the begging positions of the paddles
         this.paddleNumber = paddleNumber;
-        if (paddleNumber == 1) { // zadava poziciqta na paddlite
-            this.x = 0;            // nai vlqvo
+        if (paddleNumber == 1) {
+            this.x = 0;
         }
 
         if (paddleNumber == 2) {
@@ -31,7 +31,7 @@ public class Paddle {
         }
 
         try {
-            this.imgPaddle = ImageIO.read(new File("src/pong/paddle.jpg"));
+            this.imgPaddle = ImageIO.read(new File("src/img/paddle.jpg"));
         } catch (IOException ioe) {
             System.out.println("image: paddle not found");
         }
@@ -39,7 +39,7 @@ public class Paddle {
         this.y = pong.height / 2 - this.height / 2; // b1y coord e ednakva i za dvete
     }
 
-    public void render(Graphics g) { // iz4ertava gi
+    public void render(Graphics g) { // renders the paddles
         if (pVisible) {
             g.drawImage(this.imgPaddle, this.x, this.y, null);
 
@@ -52,10 +52,10 @@ public class Paddle {
 
     }
 
-    public void move(boolean up) {              // ako e istina i ako b1y coord na paddle-a - 25 dostiga nad
-        byte speed = 35;                        // nai gornata to4ka na prozoreca, da napravi b1y=0 t1i kato v
-        if (up) {                                // tezi igri b1x=0 i b1y=0 v nai gorniq lqv agal i b1y raste nadolu
-            if (this.y - speed > 0) {            // i s1otvetno posle za nadolu
+    public void move(boolean up) {              // sets the movement speed of the paddles
+        byte speed = 35;
+        if (up) {
+            if (this.y - speed > 0) {
                 this.y -= speed;
             } else {
                 this.y = 0;
