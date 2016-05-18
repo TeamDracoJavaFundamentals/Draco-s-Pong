@@ -5,7 +5,7 @@ import java.awt.*;
 import java.util.Random;
 
 public class Ball {
-
+	// some random bullshit
     public int x, y, width = 25, height = 25;
     public int motionX, motionY;
     public Random random;
